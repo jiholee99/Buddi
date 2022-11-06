@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk/const.dart';
+import 'package:kiosk/screens/category_screen.dart';
+import 'package:kiosk/screens/profile_screen.dart';
 import './screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -30,11 +32,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainPageScreen(),
+      home: WelcomeScreen(),
       routes: {
         loginPageRouteName: (context) => const LoginScreen(),
-        mainPageRouteName: (context) => const MainPageScreen(),
+        mainPageRouteName: (context) => MainPageScreen(),
         signupPageRouteName: (context)=> const SignupScreen(),
+        profilePageRouteName: (context) => const ProfileScreen(),
+        categoryPageRouteName:(context) => const CategoryScreen(),
       },
     );
   }

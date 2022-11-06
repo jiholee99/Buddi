@@ -1,59 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kiosk/screens/profile_screen.dart';
 
 import '../const.dart';
+import './event_list_screen.dart';
+import './profile_screen.dart';
+import './add_post_screen.dart';
 
-class MainPageScreen extends StatelessWidget {
-  const MainPageScreen({Key? key}) : super(key: key);
+class MainPageScreen extends StatefulWidget {
+  MainPageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainPageScreen> createState() => _MainPageScreenState();
+}
+
+class _MainPageScreenState extends State<MainPageScreen> {
+  List<Widget> screenList = [
+    EventListScreen(),
+    AddPostScreen(),
+    ProfileScreen(),
+    
+  ];
+  int screenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    navigationhandler(int index) {
+      switch (index) {
+        case 0:
+          setState(() {
+            screenIndex = 0;
+          });
+          break;
+        case 1:
+          setState(() {
+            screenIndex = 1;
+          });
+          break;
+        case 2:
+          setState(() {
+            screenIndex = 2;
+          });
+      }
+    }
+
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list, size: 40), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.add, size: 40), label: ""),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.calendar_month,
-                size: 40,
-              ),
-              label: ""),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Title
-            Flexible(
-                flex: 2,
-                child: Container(
-                  color: Colors.green,
-                  child: Stack(children: [
-                    Center(
-                        child: Text(
-                      "Buddi",
-                      style: titleTextStyle,
-                    )),
-                    Positioned(
-                      right: 20,
-                      child: CircleAvatar(foregroundImage: AssetImage("assets/buddiicon.jpg"),))
-                  ]),
-                )),
-            // Main Area
-            Flexible(
-                flex: 10,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  color: Colors.blue,
-                  child: Container(
-                    color: Colors.grey,
-                  ),
-                )),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: navigationhandler,
+          backgroundColor: Colors.black,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.list,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.add,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.calendar_month,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                label: ""),
           ],
         ),
-      ),
-    );
+        body: screenList[screenIndex]);
   }
 }
